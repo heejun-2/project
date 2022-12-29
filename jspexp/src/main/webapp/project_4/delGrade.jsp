@@ -11,14 +11,17 @@
 <%@ taglib prefix = "c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix = "fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
  <fmt:requestEncoding value="UTF-8"/>
+ 
 <!DOCTYPE html>
 <html>
 	<head>
 		<meta charset="UTF-8">
-		<title>Insert title here</title>
+		<title>쌍용대학교</title>
+		<link href="img/ss.png" rel="shortcut icon" type="image/x-icon">
 		<link href="/a00_com/a01_common.css" rel="stylesheet">
 		<script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
 		<script type="text/javascript">
+		
 		
 		/*
 		
@@ -34,14 +37,14 @@
 		if(id != null){
 			A01_schStudent dao = new A01_schStudent();
 			Student del = new Student(id);
-			
+			// 성적 삭제 메서드
 			dao.delGrade(del);
 			isDel = true;
 		}
-		
 		%>
 	</body>
 	<script type="text/javascript">
+	
 		var lecNum = '${lecNum}'
 		var isDel = <%=isDel %>
 		if(isDel){
@@ -53,7 +56,7 @@
 				  confirmButtonText: '확인'
 				}).then((result) => {
 				  if (result.value) {
-		              //"삭제" 버튼을 눌렀을 때 작업할 내용을 이곳에 넣어주면 된다. 
+		              //"확인" 버튼을 눌렀을 때 작업할 내용 
 					  location.href = "schStudent1.jsp?lecNum="+lecNum;
 		              
 				  }

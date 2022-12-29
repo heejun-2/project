@@ -124,7 +124,10 @@
 								<td>${std.stdName}</td>
 								<td>${std.majorName}</td>
 								<td>${std.stdYear}</td>
-								<td><a onclick="inputGrade(${std.id})" class="entry"><span>입력/수정</span></a><a onclick="delGrade(${std.id})" class="del"><span>삭 제</span></a></td>
+								<td>
+									<a onclick="inputGrade(${std.id})" class="entry"><span>입력/수정</span></a>
+									<a onclick="delGrade(${std.id})" class="del"><span>삭 제</span></a>
+								</td>
 							</tr>
 							</c:forEach>
                          </tbody>
@@ -191,34 +194,30 @@
 	      }
 	 
 	 
-		 //성적 입력/수정 페이지 이동
-		 function inputGrade(id) {
-				location.href="inputGrade.jsp?id="+id;
-		}
+	 //성적 입력/수정 페이지 이동
+	 function inputGrade(id) {
+			location.href="inputGrade.jsp?id="+id;
+	 }
 	 
 	 
 	 
 	 //성적 삭제
 	 function delGrade(id) {
 		 Swal.fire({
-			  title: '해당 학생의 성적을 \n삭제하시겠습니까?',
+			  title: '해당 학생의 성적을\n삭제하시겠습니까?',
 			  text: "삭제한 성적은 다시 복구시킬 수 없습니다.",
 			  icon: 'warning',
-			  showCancelButton: true, // cancel버튼 보이기. 기본은 원래 없음
-			  confirmButtonColor: '#3085d6', // confrim 버튼 색깔 지정
-			  cancelButtonColor: '#d33', // cancel 버튼 색깔 지정
-			  confirmButtonText: '확인', // confirm 버튼 텍스트 지정
-			  cancelButtonText: '취소' // cancel 버튼 텍스트 지정
+			  showCancelButton: true, 
+			  confirmButtonColor: '#3085d6',
+			  cancelButtonColor: '#d33',
+			  confirmButtonText: '확인', 
+			  cancelButtonText: '취소'
 			}).then((result) => {
-			  if (result.value) {
-	              //"삭제" 버튼을 눌렀을 때 작업할 내용을 이곳에 넣어주면 된다. 
-				  location.href="delGrade.jsp?id="+id;
-	              
-			  }
-			})
-
-		
-	}
+				  if (result.value) {
+					  location.href="delGrade.jsp?id="+id;
+				  }
+		 	})
+	 }
 	 
 	 
 	</script>

@@ -16,7 +16,8 @@
 <html>
 	<head>
 		<meta charset="UTF-8">
-		<title>Insert title here</title>
+		<title>쌍용대학교</title>
+		<link href="img/ss.png" rel="shortcut icon" type="image/x-icon">
 		<link href="/a00_com/a01_common.css" rel="stylesheet">
 		<script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
 		<script type="text/javascript">
@@ -45,11 +46,11 @@
 		String id =  request.getParameter("id");
 		if(id == null) id = "";
 		
-		A01_schStudent dao = new A01_schStudent();
-		Student upt = new Student(adInt, mtInt, etInt, total, id);
-		
 		boolean isPass = false;
 		if(id != null){
+			A01_schStudent dao = new A01_schStudent();
+			Student upt = new Student(adInt, mtInt, etInt, total, id);
+			// 성적 입력/수정
 			dao.udtStuLec(upt);
 			isPass = true;
 		}
@@ -58,6 +59,7 @@
 		
 	</body>
 	<script type="text/javascript">
+	
 		var id = '<%=id %>'
 		var isPass = '<%=isPass %>'
 		if( isPass ){
@@ -69,11 +71,11 @@
 				  confirmButtonText: '확인'
 				}).then((result) => {
 				  if (result.value) {
-		              //"삭제" 버튼을 눌렀을 때 작업할 내용을 이곳에 넣어주면 된다. 
 					  location.href="inputGrade.jsp?id="+id
 				  }
 				})
 		}
+
 	/*
 		
 	*/

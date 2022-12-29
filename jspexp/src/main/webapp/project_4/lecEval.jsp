@@ -5,6 +5,7 @@
     import="jspexp.a13_database.*"
     import="vo.*"
     import="dao.*"%>
+    
 <%
  	// post방식에서 한글요청값을 받을 때, 반드시 설정되어야한다.
  	request.setCharacterEncoding("utf-8");

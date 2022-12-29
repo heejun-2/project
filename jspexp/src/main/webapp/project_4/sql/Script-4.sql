@@ -207,6 +207,8 @@ INSERT INTO member_s VALUES ('20193002','6698',1);
 INSERT INTO student values('20193000','지석진',2, 2021, '', '', '', '', '', 30);
 INSERT INTO student values('20193001','전소민',2, 2021, '', '', '', '', '', 30);
 INSERT INTO student values('20193002','양세찬',2, 2021, '', '', '', '', '', 30);
+INSERT INTO member_s VALUES ('20194000','6439',1);
+INSERT INTO student values('20194000','김구라',2, 2021, '', '', '', '', '', 40);
 
 SELECT s.id, stdName, majorName, stdYear
 FROM STUDENT s, MAJOR m, STDLECTURE s2
@@ -289,16 +291,27 @@ INSERT INTO stdLecture values(10,'20193002',0, 0, 0, '', '열정적인 강의�
 SELECT *
 FROM stdLecture;
 DROP TABLE STDLECTURE;
+INSERT INTO stdLecture(lecNum, id, attendance, midtest, endtest, total) 
+values(?, ?, ?, ?, ?, ?)
 
 SELECT *
 FROM stdLecture
 WHERE lecNum = 2;
+
+SELECT attendance, midtest, endtest, total
+FROM stdLecture
+WHERE id = '20191000';
 
 SELECT s.id, stdName, majorName, attendance, midtest, endtest, total
 FROM STUDENT s , MAJOR m, STDLECTURE s2 
 WHERE s.MAJORNO = m.MAJORNO
 AND s.id = s2.id
 AND s.id = '20191000';
+
+SELECT id, stdName, majorName
+FROM STUDENT s , MAJOR m 
+WHERE s.MAJORNO = m.MAJORNO 
+AND id = '20191000';
 
 -- 성적 입력/수정
 UPDATE stdLecture

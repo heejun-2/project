@@ -22,6 +22,7 @@
 				border-collapse: collapse;
 			}
 			
+			
 			table thead {
 				background-color: rgba(204, 204, 204, 0.46);
 				height: 80px;

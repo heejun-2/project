@@ -95,15 +95,18 @@
 			<jsp:useBean id="sch" class="vo.Student"/>
 			<jsp:setProperty property="*" name="sch"/>
 			<%
-			String ids = request.getParameter("id");
-			if(ids == null) ids = "";
+			String id = request.getParameter("id");
+			if(id == null) id = "";
 			%>
-			<c:if test="${id eq '<%=ids %>'}">${sch.setId("<%=ids %>")}</c:if>
+			<c:if test="${pro.id eq '<%=id %>'}">${sch.setId("<%=id %>")}</c:if>
 			
                <div class="main-box-flex">
                   <div id="main-box2">
                      <div id="subtitle">성적입력/수정</div>
-					 <div id="btn"><a onclick="send()" class="entry"><span>입력/수정</span></a><a onclick="backPage()" class="del"><span>취 소</span></a></div>
+					 <div id="btn">
+					 	<a onclick="send()" class="entry"><span>입력/수정</span></a>
+					 	<a onclick="backPage()" class="del"><span>취 소</span></a>
+					 </div>
 					 <form action="">
                      <table>
                          <col width="14%">
@@ -114,7 +117,10 @@
                          <col width="14%">
                          <col width="14%">
                          <thead>
-                            <tr><th>학번</th><th>이름</th><th>학과</th><th>중간고사(40%)</th><th>기말고사(40%)</th><th>출결(20%)</th><th>총점</th></tr>
+                            <tr>
+                            	<th>학번</th><th>이름</th><th>학과</th><th>중간고사(40%)</th>
+                            	<th>기말고사(40%)</th><th>출결(20%)</th><th>총점</th>
+                            </tr>
                          </thead>
                          <tbody>
                          	<c:forEach var="stds" items="${dao.schStudent(sch)}">
@@ -182,17 +188,21 @@
 	      })
 	   });
 
-		
+	 	var id = '<%=id %>'
 		var attendanceOb = document.querySelector("[name=attendance]")
 		var midtestOb = document.querySelector("[name=midtest]")
 		var endtestOb = document.querySelector("[name=endtest]")
 		var selectOb = document.querySelector("#sel")
+		
+		
+		
+		
+		// 총점 선택되어질 수 있도록
+		
 		var optionOb = document.querySelectorAll("#sel option")
 		var hiddenOb = document.querySelector("[name=hidden]") 
-		var id = '<%=ids %>'
-		
+		// value값 비교 후 값이 동일하면 selected
 		for(var i = 0; i < optionOb.length; i++){
-			console.log(optionOb[i].value)
 			if(optionOb[i].value == hiddenOb.value){
 				optionOb[i].selected = true;
 			}
@@ -200,9 +210,6 @@
 		
 		//성적 입력/수정
 		function send() {
-			// ajax로 보내기
-			// % % 안에 보낸값을 받아서
-			// 메서드로 처리
 			if(attendanceOb.value < 0 || attendanceOb.value > 100 || isNaN(attendanceOb.value)){
 				alert("출결 값을 확인하세요")
 			}else if(midtestOb.value < 0 || midtestOb.value > 100 || isNaN(midtestOb.value)){
@@ -210,8 +217,8 @@
 			}else if(endtestOb.value < 0 || endtestOb.value > 100 || isNaN(endtestOb.value)){
 				alert("기말고사 값을 확인하세요")
 			}else{
-				var qstr = "?attendance="+attendanceOb.value+"&midtest="+midtestOb.value+"&endtest="+endtestOb.value+"&total="+selectOb.value+"&id="+id;
-				console.log(qstr)
+				var qstr = "?attendance="+attendanceOb.value+"&midtest="+midtestOb.value
+						+"&endtest="+endtestOb.value+"&total="+selectOb.value+"&id="+id;
 				location.href="input.jsp"+qstr;
 			}
 
@@ -235,6 +242,7 @@
 				  cancelButtonText: '취소' // cancel 버튼 텍스트 지정
 				}).then((result) => {
 				  if (result.value) {
+					//"확인" 버튼을 눌렀을 때 작업할 내용
 					  location.href="a01_login_DB.jsp"
 				  }
 				})
