@@ -38,9 +38,13 @@
    <jsp:useBean id="pro" class="vo.Professor"/>
    <jsp:setProperty property="id" name="pro"/>
 	<c:set var="pro" scope="session" value="${dao.loginName(pro)}" />
+	
+   <jsp:useBean id="stu" class="vo.Student"/>
+   <jsp:setProperty property="id" name="stu"/>
+	<c:set var="stu" scope="session" value="${dao.loginNames(stu)}" />
 </body>
 <script type="text/javascript">
-      var isFail = '${mem.id}'
+      var isFail = '${mem.code}'
       var id = '<%=id %>'
       if(isFail==''){
     	  Swal.fire({
@@ -56,7 +60,8 @@
 			  }
 			})
 
-      }else{
+      }
+      if(isFail == '2'){
     	  Swal.fire({
 			  title: '로그인 성공',
 			  icon: 'success',
@@ -65,11 +70,25 @@
 			  confirmButtonText: '확인'
 			}).then((result) => {
 			  if (result.value) {
-				  location.href="schStudent.jsp?id="+id
+				  location.href="noticeNo1.jsp"
 	              
 			  }
 			})
 
+      }
+      if(isFail == '1'){
+    	  Swal.fire({
+			  title: '로그인 성공',
+			  icon: 'success',
+			  showCancelButton: false,
+			  confirmButtonColor: '#3085d6',
+			  confirmButtonText: '확인'
+			}).then((result) => {
+			  if (result.value) {
+				  location.href="noticeNo1_stu.jsp"
+	              
+			  }
+			})
       }
    /*
       

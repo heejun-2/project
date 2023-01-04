@@ -53,11 +53,11 @@ margin-right:48%;
 <script type="text/javascript">
 </script>
 </head>
-<body style="background-image:url('img/backimg.jpg'); background-size: 100%">
-<style>
-@import url(a1_top.css);  
-</style>
-<h1 align="center">사람을 변화시키는 교육, 세상을 변화시키는 대학</h1>
+	<body style="background-image:url('img/backimg.jpg'); background-size: 100%">
+	<style>
+	@import url(a1_top.css);  
+	</style>
+	  <h1 align="center">사람을 변화시키는 교육, 세상을 변화시키는 대학</h1>
 
       <c:remove var="mem" scope="session"/>
       <form method="get" action="a02_makeSession_DB.jsp">
