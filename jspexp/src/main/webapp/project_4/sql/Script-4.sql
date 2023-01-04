@@ -10,12 +10,14 @@ DROP TABLE member_s;
 DROP TABLE major;
 DROP TABLE admin;
 
+
 CREATE TABLE admin(
    adminId varchar2(20) PRIMARY KEY,
+   adminDept varchar2(30),
    adminPw varchar2(20)
 );
 
-INSERT INTO admin values('admin1004','manager1004');
+INSERT INTO admin values('admin1004', '행정관리부', 'admin');
 SELECT *
 FROM admin;
 CREATE TABLE major(
@@ -66,6 +68,8 @@ CREATE TABLE member_s(
    password varchar(20),
    code number
 );
+SELECT *
+FROM member_S;
 DELETE FROM member_s;
 -- 교수
 INSERT INTO member_s values('HGD1000','1000',2);
@@ -237,6 +241,14 @@ CREATE TABLE notice(
    adminId varchar2(20) CONSTRAINTS admin_adminId_fk REFERENCES admin(adminId)
 );
 
+SELECT *
+FROM notice;
+CREATE SEQUENCE noticeNo1_seq
+	INCREMENT BY 1
+	START WITH 1
+	MINVALUE 1
+	MAXVALUE 9999;
+
 CREATE TABLE lecture(
    lecNum NUMBER PRIMARY KEY,
    lecName varchar2(30),
@@ -245,23 +257,32 @@ CREATE TABLE lecture(
    lecYear varchar2(30),
    semester varchar2(30),
    grade NUMBER,
-   major varchar2(30),
    times varchar2(20),
    sort varchar2(20),
-   id varchar(20) CONSTRAINTS member_s_id_fk3 REFERENCES member_s(id)
+   class_I NUMBER,
+   id varchar(20) CONSTRAINTS member_s_id_fk3 REFERENCES member_s(id),
+   majorNo NUMBER CONSTRAINTS major_majorNo_fk3 REFERENCES major(majorNo)
 );
-INSERT INTO lecture VALUES (1, 'JAVA', '공대3호관 13450', '', '2022', '1', 3, '컴퓨터공학과', '09:00~11:00', '전공', 'HGD1000');
-INSERT INTO lecture VALUES (2, 'JS', '공대3호관 13450', '', '2022', '2', 3, '컴퓨터공학과', '14:00~16:00', '전공', 'HGD1000');
-INSERT INTO lecture VALUES (3, 'JAVA SPRING', '공대3호관 13450', '', '2021', '2', 3, '컴퓨터공학과', '15:00~17:00', '전공', 'HGD1000');
-INSERT INTO lecture VALUES (10, 'JSP', '공대3호관 13450', '', '2020', '2', 3, '컴퓨터공학과', '15:00~17:00', '전공', 'KGD1001');
-INSERT INTO lecture VALUES (11, '알고리즘', '공대3호관 13450', '', '2022', '2', 3, '컴퓨터공학과', '15:00~17:00', '전공', 'KGD1001');
-INSERT INTO lecture VALUES (12, 'HTML', '공대3호관 13450', '', '2021', '1', 3, '컴퓨터공학과', '15:00~17:00', '전공', 'KGD1001');
+INSERT INTO lecture VALUES (1, 'JAVA', '공대3호관 13450', '', '2022', '1', 3, '월12', '전공', 3, 'HGD1000', 10);
+INSERT INTO lecture VALUES (2, 'JS', '공대3호관 13450', '', '2022', '2', 3, '14:00~16:00', '전공', 'HGD1000');
+INSERT INTO lecture VALUES (3, 'JAVA SPRING', '공대3호관 13450', '', '2021', '2', 3, '15:00~17:00', '전공', 'HGD1000');
+INSERT INTO lecture VALUES (10, 'JSP', '공대3호관 13450', '', '2020', '2', 3, '15:00~17:00', '전공', 'KGD1001');
+INSERT INTO lecture VALUES (11, '알고리즘', '공대3호관 13450', '', '2022', '2', 3, '15:00~17:00', '전공', 'KGD1001');
+INSERT INTO lecture VALUES (12, 'HTML', '공대3호관 13450', '', '2021', '1', 3, '15:00~17:00', '전공', 'KGD1001');
 SELECT *
 FROM lecture;
 SELECT lecNum, lecYear, semester, lecName, sort
 FROM lecture
 WHERE id='HGD1000';
-
+DROP TABLE lecture;
+UPDATE lecture
+SET LECPLAN = ''
+WHERE lecnum = 1;
+DELETE FROM lecture
+WHERE sort = '전공';
+SELECT lecNum,majorName,class_I,sort,lecName,lecLoc,times,grade
+FROM lecture l,major m
+WHERE l.majorNo=m.majorNo AND sort='전공' AND lecName LIKE '%'||'JAVA'||'%';
 CREATE TABLE scholarahip(
    id varchar2(20) CONSTRAINT student_id_fk2 REFERENCES student(id),
    sort varchar2(30),
@@ -269,6 +290,13 @@ CREATE TABLE scholarahip(
    semester NUMBER,
    amount number
 );
+UPDATE lecture
+SET times = '월12'
+WHERE id = 'HGD1000';
+
+SELECT lecNum,majorName,class_I,sort,lecName,lecLoc,times,grade 
+FROM lecture l,major m
+WHERE l.majorNo=m.majorNo AND sort='전공' AND lecName LIKE '%'||''||'%';
 
 CREATE TABLE stdLecture(
    lecNum NUMBER CONSTRAINTS lecture_lecNum_fk REFERENCES lecture(lecNum),
@@ -294,6 +322,12 @@ DROP TABLE STDLECTURE;
 INSERT INTO stdLecture(lecNum, id, attendance, midtest, endtest, total) 
 values(?, ?, ?, ?, ?, ?)
 
+DELETE stdLecture
+WHERE id = '20191000';
+
+UPDATE stdLecture
+SET lecEval=''
+WHERE id = '20191000';
 SELECT *
 FROM stdLecture
 WHERE lecNum = 2;
@@ -306,7 +340,8 @@ SELECT s.id, stdName, majorName, attendance, midtest, endtest, total
 FROM STUDENT s , MAJOR m, STDLECTURE s2 
 WHERE s.MAJORNO = m.MAJORNO
 AND s.id = s2.id
-AND s.id = '20191000';
+AND s.id = ?
+AND lecNum = ?;
 
 SELECT id, stdName, majorName
 FROM STUDENT s , MAJOR m 
@@ -319,14 +354,20 @@ SET attendance = ?,
 	midtest = ?,
 	endtest = ?,
 	total = ''
-WHERE id = '';
+WHERE id = ''
+AND lecNum = '';
 -- 성적 삭제(초기화)
 CREATE TABLE tuition(
    id varchar2(20) CONSTRAINT member_s_id_fk REFERENCES member_s(id),
    fileName varchar2(50),
    filePath varchar2(100)
 );
-
+INSERT INTO TUITION(id,FILENAME) VALUES ('20191000','a01_upload/tui_20201003.png');
+SELECT *
+FROM tuition;
+UPDATE tuition
+SET fileName = 'img/tui_20201003.png'
+WHERE id = '20191000';
 CREATE TABLE professor_s(
    id varchar2(20) CONSTRAINTS member_s_id_fk2 REFERENCES member_s(id),
    majorNo NUMBER CONSTRAINT major_majorNo_fk2 REFERENCES major(majorNo),
