@@ -46,22 +46,26 @@
 		String id =  request.getParameter("id");
 		if(id == null) id = "";
 		
+		String lecNum = request.getParameter("lecNum");
+		int lecNumInt = 0;
+		if(midtest != null) lecNumInt = Integer.parseInt(lecNum);
+		
 		boolean isPass = false;
 		if(id != null){
 			A01_schStudent dao = new A01_schStudent();
-			Student upt = new Student(adInt, mtInt, etInt, total, id);
+			Student upt = new Student(adInt, mtInt, etInt, total, id, lecNumInt);
 			// 성적 입력/수정
 			dao.udtStuLec(upt);
 			isPass = true;
 		}
 		%>
-		
-		
+			
 	</body>
 	<script type="text/javascript">
 	
 		var id = '<%=id %>'
 		var isPass = '<%=isPass %>'
+		var lecNumInt = <%=lecNumInt %>
 		if( isPass ){
 			Swal.fire({
 				  title: '성적 입력/수정이\n 완료되었습니다.',
@@ -71,7 +75,7 @@
 				  confirmButtonText: '확인'
 				}).then((result) => {
 				  if (result.value) {
-					  location.href="inputGrade.jsp?id="+id
+					  location.href="inputGrade.jsp?id="+id+"&lecNum="+lecNumInt
 				  }
 				})
 		}

@@ -19,8 +19,8 @@
 		<meta charset="UTF-8">
 		<title>쌍용대학교</title>
 		<link href="img/ss.png" rel="shortcut icon" type="image/x-icon">
-		<link href="main.css" type="text/css" rel="stylesheet">
-		<link href="input.css" type="text/css" rel="stylesheet">
+		<link href="PJ_css/main.css" type="text/css" rel="stylesheet">
+		<link href="PJ_css/input.css" type="text/css" rel="stylesheet">
 		<script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
 		<script type="text/javascript"
    src="http://code.jquery.com/jquery-1.8.3.min.js"></script>
@@ -46,18 +46,19 @@
             <div id="flex-box2_box1">
                <div>
                   <div id="nav-box">
-                     <ul id="navi">
-                         <li class="group">
-                           <div class="title">공지사항</div>
-                        </li>                    
+                    <ul id="navi">                   
                         <li class="group">
+							<div class="title">공지사항</div>
+							<ul class="sub">
+								<li><a href="noticeNo1.jsp">공지사항 조회</a></li>
+							</ul>                       	
                            <div class="title">강의 관리</div>
                            <ul class="sub">
-                              <li><a href="#">강의 등록</a></li>
-                              <li><a href="#">강의 수정</a></li>
-                              <li><a href="#">강의 삭제</a></li>
+							  <li><a href="lectureadd.jsp">강의 등록</a></li>
+                              <li><a href="lecturemodify.jsp">강의 수정</a></li>
+                              <li><a href="lecturedelete.jsp">강의 삭제</a></li>
                               <li><a href="lecEval.jsp?id=${pro.id}">강의평가 조회</a></li>
-                              <li><a href="#">강의계획서 관리</a></li>
+                              <li><a href="lecplanadd.jsp">강의계획서 관리</a></li>
                            </ul>
                         </li>
                         <li class="group">
@@ -69,9 +70,9 @@
                         <li class="group">
                            <div class="title">학생관리</div>
                            <ul class="sub">
-                              <li><a href="#">학생 조회</a></li>
-                              <li><a href="#">이메일 발송</a></li>
-                              <li><a href="#">출결 관리</a></li>
+                              <li><a href="search.jsp">학생 조회</a></li>
+                              <li><a href="sendemail.jsp">이메일 발송</a></li>
+                              <li><a href="studentAt.jsp">출결 관리</a></li>
                            </ul>
                         </li>
                      </ul>
@@ -94,12 +95,7 @@
 			<jsp:useBean id="dao" class="dao.A01_schStudent"/>
 			<jsp:useBean id="sch" class="vo.Student"/>
 			<jsp:setProperty property="*" name="sch"/>
-			<%
-			String id = request.getParameter("id");
-			if(id == null) id = "";
-			%>
-			<c:if test="${pro.id eq '<%=id %>'}">${sch.setId("<%=id %>")}</c:if>
-			
+		
                <div class="main-box-flex">
                   <div id="main-box2">
                      <div id="subtitle">성적입력/수정</div>
@@ -119,7 +115,7 @@
                          <thead>
                             <tr>
                             	<th>학번</th><th>이름</th><th>학과</th><th>중간고사(40%)</th>
-                            	<th>기말고사(40%)</th><th>출결(20%)</th><th>총점</th>
+                            	<th>기말고사(40%)</th><th>출결일수(20%)</th><th>총점</th>
                             </tr>
                          </thead>
                          <tbody>
@@ -133,11 +129,11 @@
 								<td><input type="number" name="attendance" value="${stds.attendance}"></td>
 								<td>
 									<select id="sel">
-										<option value="A">A</option>
-										<option value="B">B</option>
-										<option value="C">C</option>
-										<option value="D">D</option>
-										<option value="F">F</option>
+										<option>A</option>
+										<option>B</option>
+										<option>C</option>
+										<option>D</option>
+										<option>F</option>
 									</select>
 									<input type="hidden" value="${stds.total}" name="hidden">
 								</td>
@@ -187,20 +183,17 @@
 
 	      })
 	   });
-
-	 	var id = '<%=id %>'
-		var attendanceOb = document.querySelector("[name=attendance]")
+		
+	 	var attendanceOb = document.querySelector("[name=attendance]")
 		var midtestOb = document.querySelector("[name=midtest]")
 		var endtestOb = document.querySelector("[name=endtest]")
 		var selectOb = document.querySelector("#sel")
-		
-		
-		
-		
-		// 총점 선택되어질 수 있도록
-		
 		var optionOb = document.querySelectorAll("#sel option")
 		var hiddenOb = document.querySelector("[name=hidden]") 
+		var id = "${param.id}"
+		var lecNum = ${param.lecNum}
+		
+		// 총점 선택되어질 수 있도록
 		// value값 비교 후 값이 동일하면 selected
 		for(var i = 0; i < optionOb.length; i++){
 			if(optionOb[i].value == hiddenOb.value){
@@ -208,29 +201,59 @@
 			}
 		}
 		
+		
 		//성적 입력/수정
 		function send() {
 			if(attendanceOb.value < 0 || attendanceOb.value > 100 || isNaN(attendanceOb.value)){
-				alert("출결 값을 확인하세요")
+				Swal.fire({
+					  title: '출결 값을 확인하세요.',
+					  icon: 'warning',
+					  showCancelButton: false,
+					  confirmButtonColor: '#3085d6',
+					  confirmButtonText: '확인'
+					}).then((result) => {
+					  if (result.value) {
+						  
+					  }
+					})
 			}else if(midtestOb.value < 0 || midtestOb.value > 100 || isNaN(midtestOb.value)){
-				alert("중간고사 값을 확인하세요")
+				Swal.fire({
+					  title: '중간고사 값을 확인하세요.',
+					  icon: 'warning',
+					  showCancelButton: false,
+					  confirmButtonColor: '#3085d6',
+					  confirmButtonText: '확인'
+					}).then((result) => {
+					  if (result.value) {
+						  
+					  }
+					})
 			}else if(endtestOb.value < 0 || endtestOb.value > 100 || isNaN(endtestOb.value)){
-				alert("기말고사 값을 확인하세요")
+				Swal.fire({
+					  title: '기말고사 값을 확인하세요.',
+					  icon: 'warning',
+					  showCancelButton: false,
+					  confirmButtonColor: '#3085d6',
+					  confirmButtonText: '확인'
+					}).then((result) => {
+					  if (result.value) {
+						  
+					  }
+					})
 			}else{
 				var qstr = "?attendance="+attendanceOb.value+"&midtest="+midtestOb.value
-						+"&endtest="+endtestOb.value+"&total="+selectOb.value+"&id="+id;
+						+"&endtest="+endtestOb.value+"&total="+selectOb.value+"&id="+id+"&lecNum="+lecNum;
 				location.href="input.jsp"+qstr;
 			}
 
 		}
 		
 		// 취소 클릭시 수강생 조회 페이지로 이동
-		var lecNum = '${lecNum}'
 		function backPage() {
 			location.href = "schStudent1.jsp?lecNum="+lecNum
 		}
 		
-		
+		// 로그아웃
 	 	function logout(){
 			  Swal.fire({
 				  title: '로그아웃하시겠습니까?',
