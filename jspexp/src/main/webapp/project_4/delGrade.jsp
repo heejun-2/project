@@ -33,10 +33,14 @@
 		String id =  request.getParameter("id");
 		if(id == null) id = "";
 		
+		String lecNum = request.getParameter("lecNum");
+		int lecNumInt = 0;
+		if(lecNum != null) lecNumInt = Integer.parseInt(lecNum);
+		
 		boolean isDel = false;
 		if(id != null){
 			A01_schStudent dao = new A01_schStudent();
-			Student del = new Student(id);
+			Student del = new Student(id, lecNumInt);
 			// 성적 삭제 메서드
 			dao.delGrade(del);
 			isDel = true;
@@ -45,7 +49,7 @@
 	</body>
 	<script type="text/javascript">
 	
-		var lecNum = '${lecNum}'
+		var lecNum = '${param.lecNum}'
 		var isDel = <%=isDel %>
 		if(isDel){
 			 Swal.fire({
