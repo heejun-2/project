@@ -19,7 +19,7 @@
 		<meta charset="UTF-8">
 		<title>쌍용대학교</title>
 		<link href="img/ss.png" rel="shortcut icon" type="image/x-icon">
-		<link href="main.css" type="text/css" rel="stylesheet">
+		<link href="PJ_css/main.css" type="text/css" rel="stylesheet">
 		<script type="text/javascript"
    src="http://code.jquery.com/jquery-1.8.3.min.js"></script>
    		<script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
@@ -45,18 +45,19 @@
             <div id="flex-box2_box1">
                <div>
                   <div id="nav-box">
-                     <ul id="navi">
-                         <li class="group">
-                           <div class="title">공지사항</div>
-                        </li>                    
+                    <ul id="navi">                   
                         <li class="group">
+							<div class="title">공지사항</div>
+							<ul class="sub">
+								<li><a href="noticeNo1.jsp">공지사항 조회</a></li>
+							</ul>                       	
                            <div class="title">강의 관리</div>
                            <ul class="sub">
-                              <li><a href="#">강의 등록</a></li>
-                              <li><a href="#">강의 수정</a></li>
-                              <li><a href="#">강의 삭제</a></li>
+							  <li><a href="lectureadd.jsp">강의 등록</a></li>
+                              <li><a href="lecturemodify.jsp">강의 수정</a></li>
+                              <li><a href="lecturedelete.jsp">강의 삭제</a></li>
                               <li><a href="lecEval.jsp?id=${pro.id}">강의평가 조회</a></li>
-                              <li><a href="#">강의계획서 관리</a></li>
+                              <li><a href="lecplanadd.jsp">강의계획서 관리</a></li>
                            </ul>
                         </li>
                         <li class="group">
@@ -68,9 +69,9 @@
                         <li class="group">
                            <div class="title">학생관리</div>
                            <ul class="sub">
-                              <li><a href="#">학생 조회</a></li>
-                              <li><a href="#">이메일 발송</a></li>
-                              <li><a href="#">출결 관리</a></li>
+                              <li><a href="search.jsp">학생 조회</a></li>
+                              <li><a href="sendemail.jsp">이메일 발송</a></li>
+                              <li><a href="studentAt.jsp">출결 관리</a></li>
                            </ul>
                         </li>
                      </ul>
@@ -90,24 +91,24 @@
                   </div>
                </div>
             
-			<%
-            String id = request.getParameter("id");
-            if(id == null) id = "";
-            %>
+
 			<jsp:useBean id="dao" class="dao.A01_schStudent"/>
 			<jsp:useBean id="sch" class="vo.Lecture"/>
 			<jsp:setProperty property="*" name="sch"/>
-			<c:if test="${pro.id eq '<%=id %>'}">${sch.setId("<%=id %>") }</c:if>
 		
                <div class="main-box-flex">
                   <div id="main-box2">
-                     <div id="subtitle">강의선택</div>	
+                     <div id="subtitle">강의선택</div>
+                     <div class="tab">	
                      <table>
                          <col width="16%"><col width="16%">
                          <col width="16%"><col width="16%">
                          <col width="16%"><col width="16%">
                          <thead>
-                            <tr><th>강의번호</th><th>강의년도</th><th>학기</th><th>과목명</th><th>구분</th><th>강의평가</th></tr>
+                            <tr>
+                            	<th>강의번호</th><th>강의년도</th><th>학기</th>
+                            	<th>과목명</th><th>구분</th><th>강의평가</th>
+                            </tr>
                          </thead>
                          <tbody>
                         	<c:forEach var="std" items="${dao.getLecSch(sch)}">
@@ -117,11 +118,16 @@
 								<td>${std.semester}</td>
 								<td>${std.lecName}</td>
 								<td>${std.sort}</td>
-								<td><a onclick="getList(${std.lecNum})" class="stdSch"><span>조회하기</span></a></td>
+								<td>
+									<a onclick="getList(${std.lecNum})" class="stdSch">
+										<span>조회하기</span>
+									</a>
+								</td>
 							</tr>
 							</c:forEach>
                          </tbody>
                       </table>
+                      </div>
                      
                      
                   </div>
@@ -184,14 +190,9 @@
 	      }
 	 
 		function getList(lecNum) {
-			window.open("Eval.jsp?lecNum="+lecNum,"","width=500px, height=500px, left = 730px, top = 250px")
+			window.open("Eval.jsp?lecNum="+lecNum,"",
+			"width=500px, height=500px, left = 730px, top = 250px")
 		}
 		
-		var idd = '${mem.id}'
-		var id = '${pro.id}'
-		var ids = '<%=id %>'
-		console.log(idd)
-		console.log(id)
-		console.log(ids)
 	</script>
 </html>
