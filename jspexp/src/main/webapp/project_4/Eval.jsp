@@ -47,19 +47,12 @@
 		<jsp:useBean id="dao" class="dao.A02_stdLecture"/>
 		<jsp:useBean id="sch" class="vo.StdLecture"/>
 		<jsp:setProperty property="*" name="sch"/>
-		<%
-			String lecNum = request.getParameter("lecNum");
-			int lecNumInt = 0;
-			if(lecNum != null) lecNumInt = Integer.parseInt(lecNum);
-			session.setAttribute("lecNum", lecNumInt);
-			
-			if(lecNum != null){
-		%>
-			<c:if test="${lecNum eq lecNumInt}">${sch.setLecNum(lecNumInt)}</c:if>
-		<% } %>
+
 		<table>
 			<thead>
-				<tr><th> Q. 이 강의에서 좋았던 점, 개선사항 또는 건의사항이 있으면 기재해주시기 바랍니다. </th></tr>
+				<tr>
+					<th> Q. 이 강의에서 좋았던 점, 개선사항 또는 건의사항이 있으면 기재해주시기 바랍니다.</th>
+				</tr>
 			</thead>
 			<tbody>
 				<c:forEach var="std" items="${dao.getListEval(sch)}">
