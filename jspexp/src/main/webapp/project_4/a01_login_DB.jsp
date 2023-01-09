@@ -21,7 +21,6 @@ margin-top:12%;
 font-size:40px;
 color:white;
 text-shadow: 6px 2px 2px black;
-
 }
 form{
   margin-top:3%
