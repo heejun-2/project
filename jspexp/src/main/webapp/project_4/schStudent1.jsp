@@ -18,7 +18,7 @@
 		<meta charset="UTF-8">
 		<title>쌍용대학교</title>
 		<link href="img/ss.png" rel="shortcut icon" type="image/x-icon">
-		<link href="main.css" type="text/css" rel="stylesheet">
+		<link href="PJ_css/main.css" type="text/css" rel="stylesheet">
 		<script type="text/javascript"
   		 src="http://code.jquery.com/jquery-1.8.3.min.js"></script>
   		 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
@@ -44,18 +44,19 @@
             <div id="flex-box2_box1">
                <div>
                   <div id="nav-box">
-                     <ul id="navi">
-                         <li class="group">
-                           <div class="title">공지사항</div>
-                        </li>                    
+                    <ul id="navi">                   
                         <li class="group">
+							<div class="title">공지사항</div>
+							<ul class="sub">
+								<li><a href="noticeNo1.jsp">공지사항 조회</a></li>
+							</ul>                       	
                            <div class="title">강의 관리</div>
                            <ul class="sub">
-                              <li><a href="#">강의 등록</a></li>
-                              <li><a href="#">강의 수정</a></li>
-                              <li><a href="#">강의 삭제</a></li>
+							  <li><a href="lectureadd.jsp">강의 등록</a></li>
+                              <li><a href="lecturemodify.jsp">강의 수정</a></li>
+                              <li><a href="lecturedelete.jsp">강의 삭제</a></li>
                               <li><a href="lecEval.jsp?id=${pro.id}">강의평가 조회</a></li>
-                              <li><a href="#">강의계획서 관리</a></li>
+                              <li><a href="lecplanadd.jsp">강의계획서 관리</a></li>
                            </ul>
                         </li>
                         <li class="group">
@@ -67,9 +68,9 @@
                         <li class="group">
                            <div class="title">학생관리</div>
                            <ul class="sub">
-                              <li><a href="#">학생 조회</a></li>
-                              <li><a href="#">이메일 발송</a></li>
-                              <li><a href="#">출결 관리</a></li>
+                              <li><a href="search.jsp">학생 조회</a></li>
+                              <li><a href="sendemail.jsp">이메일 발송</a></li>
+                              <li><a href="studentAt.jsp">출결 관리</a></li>
                            </ul>
                         </li>
                      </ul>
@@ -93,40 +94,31 @@
 				<jsp:useBean id="dao" class="dao.A01_schStudent"/>
 				<jsp:useBean id="sch" class="vo.Student"/>
 				<jsp:setProperty property="*" name="sch"/>
-				<%
-				String lecNum = request.getParameter("lecNum");
-				int lecNumInt = 0;
-				if(lecNum != null) lecNumInt = Integer.parseInt(lecNum);
-				session.setAttribute("lecNum", lecNumInt);
-				
-				if(lecNum != null){
-				%>
-				<c:if test="${lecNum eq lecNumInt}">${sch.setLecNum(lecNumInt)}</c:if>
-				<% } %>
-			
-               <div class="main-box-flex">
+		
+                <div class="main-box-flex">
                   <div id="main-box2">
                      <div id="subtitle">수강생리스트 | 과목명</div>
-					
                      <table>
-                         <col width="20%">
-                         <col width="20%">
-                         <col width="20%">
-                         <col width="20%">
-                         <col width="20%">
+                         <col width="20%"><col width="20%"><col width="20%">
+                         <col width="20%"><col width="20%">
                          <thead>
-                            <tr><th>학번</th><th>이름</th><th>학과</th><th>학년</th><th>성적관리</th></tr>
+                            <tr>
+                           	 <th>학번</th><th>이름</th><th>학과</th>
+                           	 <th>학년</th><th>성적관리</th>
+                            </tr>
                          </thead>
                          <tbody>
                         	<c:forEach var="std" items="${dao.schStu(sch)}">
                             <tr>
-								<td>${std.id}</td>
-								<td>${std.stdName}</td>
-								<td>${std.majorName}</td>
-								<td>${std.stdYear}</td>
+								<td>${std.id}</td><td>${std.stdName}</td>
+								<td>${std.majorName}</td><td>${std.stdYear}</td>
 								<td>
-									<a onclick="inputGrade(${std.id})" class="entry"><span>입력/수정</span></a>
-									<a onclick="delGrade(${std.id})" class="del"><span>삭 제</span></a>
+									<a onclick="inputGrade(${std.id})" class="entry">
+										<span>입력/수정</span>
+									</a>
+									<a onclick="delGrade(${std.id})" class="del">
+										<span>삭 제</span>
+									</a>
 								</td>
 							</tr>
 							</c:forEach>
@@ -195,8 +187,9 @@
 	 
 	 
 	 //성적 입력/수정 페이지 이동
+	 var lecNum = ${param.lecNum}
 	 function inputGrade(id) {
-			location.href="inputGrade.jsp?id="+id;
+			location.href="inputGrade.jsp?id="+id+"&lecNum="+lecNum;
 	 }
 	 
 	 
@@ -214,7 +207,7 @@
 			  cancelButtonText: '취소'
 			}).then((result) => {
 				  if (result.value) {
-					  location.href="delGrade.jsp?id="+id;
+					  location.href="delGrade.jsp?id="+id+"&lecNum="+lecNumInt;
 				  }
 		 	})
 	 }
