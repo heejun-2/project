@@ -6,7 +6,11 @@ body {
 	background-color: #f2f2f9;
 	font-weight: bold;
 }
-
+a{
+	text-decoration: none;
+	color: inherit;
+	cursor: pointer;
+}
 /* 로그아웃 버튼*/
 #bt2{
 font-size: 14px;

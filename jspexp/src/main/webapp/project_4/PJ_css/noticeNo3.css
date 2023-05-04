@@ -6,7 +6,15 @@ body {
 	background-color: #f2f2f9;
 	font-weight: bold;
 }
-
+#bt2 {
+    font-size: 14px;
+    border-radius: 4px;
+    background: #0066CC;
+    color: white;
+    border: 1px solid gray;
+    font-size: 15px;
+    cursor: pointer;
+}
 .flex-box1 {
 	display: flex;
 	width: 100%;
